@@ -1,0 +1,17 @@
+{
+  "name": "invoice-api-rest",
+  "version": "1.0.0",
+  "description": "Simple API Rest to manage invoices for testing purposes.",
+  "main": "index.ts",
+  "repository": "https://github.com/crolopez/invoice-api-rest",
+  "author": "Cristobal Lopez <crolopezp@gmail.com>",
+  "license": "GPL-3.0",
+  "scripts": {
+    "lint": "eslint -c .eslintrc.js tests/**/*.ts",
+    "prebuild": "yarn lint",
+    "build": "rimraf ./dist && tsc",
+    "start": "node dist/index.js",
+    "test:unit": "jest tests",
+    "test:unit:ci": "jest tests --ci --runInBand"
+  }
+}
