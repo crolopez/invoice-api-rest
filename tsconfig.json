@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "target": "es2017",
+    "target": "es6",
     "module": "commonjs",
     "removeComments": true,
     "resolveJsonModule": true,
@@ -15,14 +15,13 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "rootDir": ".",
+    "strict": false,
     "types": [
       "jest",
       "node"
     ],
     "outDir": "dist",
-    "lib": [
-      "es2020.promise"
-    ]
   },
   "include": [
     "src/**/*.ts",

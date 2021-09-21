@@ -1,46 +1,45 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
+import { connectMongo } from './utils/mongo'
+import { InvoiceResponse } from './types/InvoiceResponse'
+import InvoiceHandler from './modules/InvoiceHandler'
 
-const handler: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  context.log('HTTP trigger function processed a request.')
+async function initMongo(context: Context) {
+  context.log('Starting MongoDB connection.')
+  await connectMongo()
+}
 
-  const name = (req.query.name || (req.body && req.body.name))
-  const responseMessage = name
-    ? `Hello,  ${name}. This HTTP triggered function executed successfully.`
-    : 'This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.'
-
-  context.res = {
-    status: 200,
-    body: responseMessage,
+async function processRequest(req: HttpRequest): Promise<InvoiceResponse> {
+  switch (req.method) {
+    case 'GET':
+      return req.params.invoiceId == undefined ?
+        await InvoiceHandler.getInvoices() :
+        await InvoiceHandler.getInvoice(req.params.invoiceId)
+    case 'POST':
+      return await InvoiceHandler.registerInvoice(req.body)
+    case 'DELETE':
+      return await InvoiceHandler.deleteInvoice(req.params.invoiceId as string)
+    default:
+      return {
+        success: false,
+        errorMessage: `Invalid request method: ${req.method}`,
+      }
   }
 }
 
-export default handler
-
-
-
-
-/*
-
-import type { APIGatewayProxyHandler } from 'aws-lambda/trigger/api-gateway-proxy'
-import { Message } from 'telegram-typings'
-import { commandDispatcher } from './modules/commands/commandDispatcher'
-
-const handle: APIGatewayProxyHandler = async (event: any) => {
+const requestHandler: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   try {
-    const { message } = JSON.parse(event.body)
-    const response = await commandDispatcher(message as Message)
-    return {
-      body: JSON.stringify(response),
-      statusCode: 200,
+    initMongo(context)
+    const result = await processRequest(req)
+    context.res = {
+      status: result.success ? 200 : 500,
+      body: result,
     }
   } catch (error) {
-    return {
-      body: JSON.stringify({ reason: error.message }),
-      statusCode: 500,
+    context.res = {
+      status: 500,
+      body: error.message,
     }
   }
 }
 
-export { handle }
-
-*/
+export default requestHandler

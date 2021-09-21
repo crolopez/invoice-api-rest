@@ -9,13 +9,15 @@
   "scripts": {
     "lint": "eslint -c .eslintrc.js tests src",
     "prebuild": "yarn lint",
-    "build": "rimraf ./dist && tsc",
-    "start": "node dist/src/index.js",
+    "build": "tsc",
+    "prestart": "yarn build",
+    "start": "func start",
     "test:unit": "jest tests",
     "test:unit:coverage": "yarn test:unit --coverage",
     "test:unit:ci": "jest tests --ci --runInBand"
   },
   "devDependencies": {
+    "@azure/functions": "^1.2.3",
     "@types/jest": "^27.0.1",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
@@ -25,7 +27,6 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "@azure/functions": "^1.2.3",
     "mongoose": "^6.0.6"
   }
 }
