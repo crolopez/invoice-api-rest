@@ -1,7 +1,7 @@
 
 export interface InvoiceBody {
   invoiceId: string,
-  suplier: string,
+  supplier: string,
   dateIssued: string,
   currency: string,
   amount: number,

@@ -5,7 +5,7 @@ describe('Class InvoiceHandler', () => {
   const testInvoiceId = '5e3e0b21-e98a-4480-bfb7-49e8dc61f551'
   const testInvoice = {
     invoiceId: testInvoiceId,
-    suplier: 'Fake supplier',
+    supplier: 'Fake supplier',
     dateIssued: '2019-10-10 13:30:01 T+0210',
     currency: 'EUR',
     amount: 1000.00,

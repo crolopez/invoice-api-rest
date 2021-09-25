@@ -34,7 +34,7 @@ Request:
 
 ``` bash
 curl -i -H 'Content-Type: application/json' http://localhost:7071/api/ \
--d '{ "invoiceId": "891248192B", "suplier": "Fake supplier", "dateIssued": "2019-10-10 13:30:01 T+0210", "currency": "EUR", "amount": 1000.00, "description": "New projector for confenrece room" }'
+-d '{ "invoiceId": "891248192B", "supplier": "Fake supplier", "dateIssued": "2019-10-10 13:30:01 T+0210", "currency": "EUR", "amount": 1000.00, "description": "New projector for confenrece room" }'
 ```
 
 
